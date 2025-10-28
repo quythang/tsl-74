@@ -1,0 +1,184 @@
+package com.ts.platform.utils.reflect;
+
+
+import com.ts.platform.utils.collect.Lists;
+import com.ts.platform.utils.collect.Sets;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
+
+@SuppressWarnings("rawtypes")
+public final class TSLTypes {
+
+    public static final Set<Class> BOOLEAN_TYPES = booleanTypes();
+    public static final Set<Class> PRIMITIVE_TYPES = primitiveTypes();
+    public static final Set<Class> WRAPPER_TYPES = wrapperTypes();
+    public static final Set<Class> ARRAY_PRIMITIVE_TYPES = arrayPrimitiveTypes();
+    public static final Set<Class> ARRAY_WRAPPER_TYPES = arrayWrapperTypes();
+    public static final Set<Class> TWO_DIMENSIONS_ARRAY_PRIMITIVE_TYPES = twoDimensionsArrayPrimitiveTypes();
+    public static final Set<Class> TWO_DIMENSIONS_ARRAY_WRAPPER_TYPES = twoDimensionsArrayWrapperTypes();
+    public static final Set<Class> STRING_TYPES = stringTypes();
+    public static final Set<Class> ALL_TYPES = mergeAllTypes();
+    public static final Set<Class> NON_ARRAY_TYPES = nonArrayTypes();
+    public static final Set<Class> COMMON_GENERIC_TYPES = commonGenericTypes();
+    public static final Map<Class, Class> PRIMITIVE_WRAPPER_TYPES_MAP = mapPrimitiveAndWrapperTypes();
+
+    private TSLTypes() {}
+
+    private static Set<Class> booleanTypes() {
+        Set<Class> set = Sets.newHashSet(
+            boolean.class,
+            Boolean.class
+        );
+        return Collections.unmodifiableSet(set);
+    }
+
+    private static Set<Class> primitiveTypes() {
+        Set<Class> set = Sets.newHashSet(
+            boolean.class,
+            byte.class,
+            char.class,
+            double.class,
+            float.class,
+            int.class,
+            long.class,
+            short.class
+        );
+        return Collections.unmodifiableSet(set);
+    }
+
+    private static Set<Class> wrapperTypes() {
+        Set<Class> set = Sets.newHashSet(
+            Boolean.class,
+            Byte.class,
+            Character.class,
+            Double.class,
+            Float.class,
+            Integer.class,
+            Long.class,
+            Short.class
+        );
+        return Collections.unmodifiableSet(set);
+    }
+
+    private static Set<Class> arrayPrimitiveTypes() {
+        Set<Class> set = Sets.newHashSet(
+            boolean[].class,
+            byte[].class,
+            char[].class,
+            double[].class,
+            float[].class,
+            int[].class,
+            long[].class,
+            short[].class
+        );
+        return Collections.unmodifiableSet(set);
+    }
+
+    private static Set<Class> arrayWrapperTypes() {
+        Set<Class> set = Sets.newHashSet(
+            Boolean[].class,
+            Byte[].class,
+            Character[].class,
+            Double[].class,
+            Float[].class,
+            Integer[].class,
+            Long[].class,
+            Short[].class
+        );
+        return Collections.unmodifiableSet(set);
+    }
+
+    private static Set<Class> twoDimensionsArrayPrimitiveTypes() {
+        Set<Class> set = Sets.newHashSet(
+            boolean[][].class,
+            byte[][].class,
+            char[][].class,
+            double[][].class,
+            float[][].class,
+            int[][].class,
+            long[][].class,
+            short[][].class
+        );
+        return Collections.unmodifiableSet(set);
+    }
+
+    private static Set<Class> twoDimensionsArrayWrapperTypes() {
+        Set<Class> set = Sets.newHashSet(
+            Boolean[][].class,
+            Byte[][].class,
+            Character[][].class,
+            Double[][].class,
+            Float[][].class,
+            Integer[][].class,
+            Long[][].class,
+            Short[][].class
+        );
+        return Collections.unmodifiableSet(set);
+    }
+
+    private static Set<Class> stringTypes() {
+        Set<Class> set = Sets.newHashSet(
+            String.class,
+            String[].class,
+            String[][].class
+        );
+        return Collections.unmodifiableSet(set);
+    }
+
+    private static Set<Class> mergeAllTypes() {
+        Set<Class> merge = new HashSet<>();
+        merge.addAll(Lists.newArrayList(PRIMITIVE_TYPES));
+        merge.addAll(Lists.newArrayList(WRAPPER_TYPES));
+        merge.addAll(Lists.newArrayList(ARRAY_PRIMITIVE_TYPES));
+        merge.addAll(Lists.newArrayList(ARRAY_WRAPPER_TYPES));
+        merge.addAll(Lists.newArrayList(TWO_DIMENSIONS_ARRAY_PRIMITIVE_TYPES));
+        merge.addAll(Lists.newArrayList(TWO_DIMENSIONS_ARRAY_WRAPPER_TYPES));
+        merge.addAll(Lists.newArrayList(STRING_TYPES));
+        return Collections.unmodifiableSet(merge);
+    }
+
+    private static Set<Class> nonArrayTypes() {
+        Set<Class> merge = new HashSet<>();
+        merge.addAll(Lists.newArrayList(PRIMITIVE_TYPES));
+        merge.addAll(Lists.newArrayList(WRAPPER_TYPES));
+        merge.add(String.class);
+        return Collections.unmodifiableSet(merge);
+    }
+
+    private static Map<Class, Class> mapPrimitiveAndWrapperTypes() {
+        Map<Class, Class> map = new ConcurrentHashMap<>();
+        map.put(boolean.class, Boolean.class);
+        map.put(byte.class, Byte.class);
+        map.put(char.class, Character.class);
+        map.put(double.class, Double.class);
+        map.put(float.class, Float.class);
+        map.put(int.class, Integer.class);
+        map.put(long.class, Long.class);
+        map.put(short.class, Short.class);
+        return Collections.unmodifiableMap(map);
+    }
+
+    private static Set<Class> commonGenericTypes() {
+        Set<Class> set = Sets.newHashSet(
+            Collection.class,
+            List.class,
+            ArrayList.class,
+            CopyOnWriteArrayList.class,
+            LinkedList.class,
+            Set.class,
+            HashSet.class,
+            CopyOnWriteArraySet.class,
+            Vector.class,
+            Stack.class,
+            Queue.class,
+            Map.class,
+            HashMap.class,
+            TreeMap.class,
+            ConcurrentHashMap.class
+        );
+        return Collections.unmodifiableSet(set);
+    }
+}
