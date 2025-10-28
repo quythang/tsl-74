@@ -1,5 +1,7 @@
 package com.ts.platform.utils.util;
 
+import com.ts.platform.reflection.vfs.Vfs;
+
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
@@ -23,8 +25,13 @@ public class Iterables {
             }
 
             public Spliterator<T> spliterator() {
-                return CollectSpliterators.filter(unfiltered.spliterator(), retainIfTrue);
+                return null;
             }
         };
+    }
+
+    public static Iterable<Vfs.File> concat(Iterable<Vfs.File> result, Iterable<Vfs.File> filter) {
+
+        return null;
     }
 }
