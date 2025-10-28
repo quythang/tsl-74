@@ -11,4 +11,8 @@ public class Reflections {
      public static Logger log = findLogger(Reflections.class);
 
 
+    public static Class<?> forName(String className, ClassLoader[] classLoaders) {
+
+        return null;
+    }
 }
