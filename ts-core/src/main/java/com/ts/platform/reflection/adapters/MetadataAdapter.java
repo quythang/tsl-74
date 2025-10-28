@@ -1,12 +1,12 @@
 package com.ts.platform.reflection.adapters;
 
-import com.tvd12.reflections.vfs.Vfs;
+
+
+import com.ts.platform.reflection.vfs.Vfs;
 
 import java.util.List;
 
-/**
- *
- */
+
 public interface MetadataAdapter<C,F,M> {
 
     //

@@ -1,7 +1,8 @@
 package com.ts.platform.reflection.util;
 
-
 import com.ts.platform.reflection.Reflections;
+import com.ts.platform.reflection.ReflectionsException;
+import com.ts.platform.reflection.scanners.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,12 +19,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import static com.ts.platform.reflection.Reflections.forName;
+import static com.ts.platform.reflection.ReflectionUtils.forName;
 
 
-/**
- * a garbage can of convenient methods
- */
 @SuppressWarnings("rawtypes")
 public abstract class Utils {
 
@@ -58,7 +56,7 @@ public abstract class Utils {
         return file;
     }
 
-    public static Member getMemberFromDescriptor(String descriptor, ClassLoader... classLoaders) throws RuntimeException {
+    public static Member getMemberFromDescriptor(String descriptor, ClassLoader... classLoaders) throws ReflectionsException {
         int p0 = descriptor.lastIndexOf('(');
         String memberKey = p0 != -1 ? descriptor.substring(0, p0) : descriptor;
         String methodParameters = p0 != -1 ? descriptor.substring(p0 + 1, descriptor.lastIndexOf(')')) : "";
@@ -72,12 +70,11 @@ public abstract class Utils {
             String[] parameterNames = methodParameters.split(",");
             List<Class<?>> result = new ArrayList<Class<?>>(parameterNames.length);
             for (String name : parameterNames) {
-//                result.add(forName(name.trim(), classLoaders));
+                result.add(forName(name.trim(), classLoaders));
             }
             parameterTypes = result.toArray(new Class<?>[result.size()]);
         }
 
-//        Class<?> aClass = forName(className, classLoaders);
         Class<?> aClass = forName(className, classLoaders);
         while (aClass != null) {
             try {
@@ -92,7 +89,7 @@ public abstract class Utils {
                 aClass = aClass.getSuperclass();
             }
         }
-        throw new RuntimeException("Can't resolve member named " + memberName + " for class " + className);
+        throw new ReflectionsException("Can't resolve member named " + memberName + " for class " + className);
     }
 
     public static Set<Method> getMethodsFromDescriptors(Iterable<String> annotatedWith, ClassLoader... classLoaders) {
@@ -106,7 +103,7 @@ public abstract class Utils {
         return result;
     }
 
-	public static Set<Constructor> getConstructorsFromDescriptors(Iterable<String> annotatedWith, ClassLoader... classLoaders) {
+    public static Set<Constructor> getConstructorsFromDescriptors(Iterable<String> annotatedWith, ClassLoader... classLoaders) {
         Set<Constructor> result = Sets.newHashSet();
         for (String annotated : annotatedWith) {
             if (isConstructor(annotated)) {
@@ -122,8 +119,8 @@ public abstract class Utils {
         for (String value : values) {
             try {
                 result.add(Utils.getMemberFromDescriptor(value, classLoaders));
-            } catch (RuntimeException e) {
-                throw new RuntimeException("Can't resolve member named " + value, e);
+            } catch (ReflectionsException e) {
+                throw new ReflectionsException("Can't resolve member named " + value, e);
             }
         }
         return result;
@@ -136,7 +133,7 @@ public abstract class Utils {
         try {
             return forName(className, classLoaders).getDeclaredField(fieldName);
         } catch (NoSuchFieldException e) {
-            throw new RuntimeException("Can't resolve field named " + fieldName, e);
+            throw new ReflectionsException("Can't resolve field named " + fieldName, e);
         }
     }
 
@@ -202,4 +199,5 @@ public abstract class Utils {
         return field.getDeclaringClass().getName() + "." + field.getName();
     }
 
+    public static String index(Class<? extends Scanner> scannerClass) { return scannerClass.getSimpleName(); }
 }

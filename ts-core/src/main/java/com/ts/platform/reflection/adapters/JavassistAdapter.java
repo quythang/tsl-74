@@ -1,10 +1,11 @@
 package com.ts.platform.reflection.adapters;
 
-import com.tvd12.reflections.ReflectionsException;
-import com.tvd12.reflections.util.Joiner;
-import com.tvd12.reflections.util.Lists;
-import com.tvd12.reflections.util.Utils;
-import com.tvd12.reflections.vfs.Vfs;
+
+import com.ts.platform.reflection.ReflectionsException;
+import com.ts.platform.reflection.util.Joiner;
+import com.ts.platform.reflection.util.Lists;
+import com.ts.platform.reflection.util.Utils;
+import com.ts.platform.reflection.vfs.Vfs;
 import javassist.bytecode.*;
 import javassist.bytecode.annotation.Annotation;
 
@@ -18,9 +19,7 @@ import java.util.List;
 import static javassist.bytecode.AccessFlag.isPrivate;
 import static javassist.bytecode.AccessFlag.isProtected;
 
-/**
- *
- */
+
 public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, MethodInfo> {
 
     /**setting this to false will result in returning only visible annotations from the relevant methods here (only {@link java.lang.annotation.RetentionPolicy#RUNTIME})*/
