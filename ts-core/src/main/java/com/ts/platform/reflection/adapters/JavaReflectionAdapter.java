@@ -1,6 +1,9 @@
 package com.ts.platform.reflection.adapters;
 
 
+import com.ts.platform.reflection.util.Joiner;
+import com.ts.platform.reflection.util.Utils;
+import com.ts.platform.reflection.vfs.Vfs;
 import com.ts.platform.utils.collect.Lists;
 
 import java.lang.annotation.Annotation;
@@ -9,7 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.tvd12.reflections.ReflectionUtils.forName;
+import static com.ts.platform.reflection.ReflectionUtils.forName;
+
 
 /** */
 @SuppressWarnings("rawtypes")
@@ -104,7 +108,7 @@ public class JavaReflectionAdapter implements MetadataAdapter<Class, Field, Memb
                 o instanceof Class ? ((Class) o).getModifiers() :
                 o instanceof Member ? ((Member) o).getModifiers() : null;
 
-        return mod != null && Modifier.isPublic(mod);
+        return Modifier.isPublic(mod);
     }
 
     public String getClassName(Class cls) {

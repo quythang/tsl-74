@@ -50,17 +50,12 @@ public final class Iterables {
 	}
 
 	public static <T> Iterable<T> concat(Iterable<? extends T>... inputs) {
-		return new Iterable<T>() {
-			@Override
-			public Iterator<T> iterator() {
-				return Iterators.concat(new AbstractIndexedListIterator<Iterator<? extends T>>(inputs.length) {
-					@Override
-					public Iterator<? extends T> get(int i) {
-						return inputs[i].iterator();
-					}
-				});
-			}
-		};
+		return () -> Iterators.concat(new AbstractIndexedListIterator<Iterator<? extends T>>(inputs.length) {
+            @Override
+            public Iterator<? extends T> get(int i) {
+                return inputs[i].iterator();
+            }
+        });
 	}
 
 	public static <T> Iterable<T> concat(Iterable<? extends Iterable<? extends T>> inputs) {

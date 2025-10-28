@@ -1,17 +1,13 @@
 package com.ts.platform.reflection;
 
+import com.ts.platform.reflection.util.*;
 
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
-/**
- * stores metadata information in multimaps
- * <p>use the different query methods (getXXX) to query the metadata
- * <p>the query methods are string based, and does not cause the class loader to define the types
- * <p>use {@link com.tvd12.reflections.Reflections#getStore()} to access this store
- */
+
 public class Store {
 
     private transient boolean concurrent;
@@ -50,7 +46,6 @@ public class Store {
         return mmap;
     }
 
-    /** get the multimap object for the given {@code index}, otherwise throws a {@link com.tvd12.reflections.ReflectionsException} */
     public Multimap<String, String> get(String index) {
         Multimap<String, String> mmap = storeMap.get(index);
         if (mmap == null) {
@@ -59,12 +54,10 @@ public class Store {
         return mmap;
     }
 
-    /** get the values stored for the given {@code index} and {@code keys} */
     public Iterable<String> get(String index, String... keys) {
         return get(index, Arrays.asList(keys));
     }
 
-    /** get the values stored for the given {@code index} and {@code keys} */
     public Iterable<String> get(String index, Iterable<String> keys) {
         Multimap<String, String> mmap = get(index);
         IterableChain<String> result = new IterableChain<String>();
@@ -74,7 +67,6 @@ public class Store {
         return result;
     }
 
-    /** recursively get the values stored for the given {@code index} and {@code keys}, including keys */
     private Iterable<String> getAllIncluding(String index, Iterable<String> keys, IterableChain<String> result) {
         result.addAll(keys);
         for (String key : keys) {
@@ -86,12 +78,10 @@ public class Store {
         return result;
     }
 
-    /** recursively get the values stored for the given {@code index} and {@code keys}, not including keys */
     public Iterable<String> getAll(String index, String key) {
         return getAllIncluding(index, get(index, key), new IterableChain<String>());
     }
 
-    /** recursively get the values stored for the given {@code index} and {@code keys}, not including keys */
     public Iterable<String> getAll(String index, Iterable<String> keys) {
     		Iterable<String> storedValues = get(index, keys);
     		IterableChain<String> result = new IterableChain<String>();
